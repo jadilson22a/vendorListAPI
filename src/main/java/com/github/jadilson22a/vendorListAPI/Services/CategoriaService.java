@@ -15,8 +15,12 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository repository;
 
-    public void CriarCategoria(CategoriaDTO dto){
-        repository.save(dto.mapearParaCategoria());
+    public CategoriaDTO CriarCategoria(CategoriaDTO dto){
+        Categoria categoriaCriada = repository.save(dto.mapearParaCategoria());
+        CategoriaDTO categoriaDTOCriada = new CategoriaDTO(categoriaCriada.getId(),
+                                                            categoriaCriada.getNome());
+
+        return categoriaDTOCriada;
     }
 
     public List<CategoriaDTO> BuscarTudo(){
