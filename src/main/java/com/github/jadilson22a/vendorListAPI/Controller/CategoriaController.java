@@ -1,5 +1,6 @@
 package com.github.jadilson22a.vendorListAPI.Controller;
 
+import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Categoria;
 import com.github.jadilson22a.vendorListAPI.Services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,22 @@ public class CategoriaController {
     private CategoriaService service;
 
     @PostMapping()
-    public void CriarCategoria(@RequestBody Categoria categoria){
-        service.CriarCategoria(categoria);
+    public void CriarCategoria(@RequestBody CategoriaDTO dto){
+        service.CriarCategoria(dto);
     }
 
     @GetMapping()
-    public List<Categoria> BuscarTudo(){
+    public List<CategoriaDTO> BuscarTudo(){
         return service.BuscarTudo();
     }
 
     @GetMapping("{id}")
-    public Categoria BuscarPorId(@PathVariable Integer id){
+    public CategoriaDTO BuscarPorId(@PathVariable Integer id){
         return service.BuscarPorId(id);
     }
 
     @GetMapping("nome/{nome}")
-    public List<Categoria> BuscarPorNome(@PathVariable String nome){
+    public List<CategoriaDTO> BuscarPorNome(@PathVariable String nome){
         return service.BuscarPorNome(nome);
     }
 
@@ -45,7 +46,7 @@ public class CategoriaController {
     }
 
     @PutMapping("{id}")
-    public Categoria Atualizar(@PathVariable Integer id,
+    public CategoriaDTO Atualizar(@PathVariable Integer id,
                                @RequestBody Categoria categoriaAtualizada){
         return service.Atualizar(id, categoriaAtualizada);
     }
