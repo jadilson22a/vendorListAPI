@@ -2,8 +2,11 @@ package com.github.jadilson22a.vendorListAPI.Controller;
 
 import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Categoria;
+import com.github.jadilson22a.vendorListAPI.Models.RespostaErro;
 import com.github.jadilson22a.vendorListAPI.Services.CategoriaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.github.jadilson22a.vendorListAPI.Models.RespostaErro.erroPadrao;
+
+@Slf4j
 @RestController
 @RequestMapping("categoria")
 public class CategoriaController {
@@ -19,7 +25,7 @@ public class CategoriaController {
     private CategoriaService service;
 
     @PostMapping()
-    public ResponseEntity<CategoriaDTO> CriarCategoria(@RequestBody CategoriaDTO dto){
+    public ResponseEntity<Object> CriarCategoria(@RequestBody CategoriaDTO dto){
         CategoriaDTO dtoCriado = service.CriarCategoria(dto);
         return new ResponseEntity(dtoCriado, HttpStatus.CREATED);
     }
