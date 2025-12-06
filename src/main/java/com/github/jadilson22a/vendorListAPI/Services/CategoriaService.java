@@ -1,5 +1,6 @@
 package com.github.jadilson22a.vendorListAPI.Services;
 
+import com.github.jadilson22a.vendorListAPI.Beans.ValidacaoCategoria;
 import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Categoria;
 import com.github.jadilson22a.vendorListAPI.Repository.CategoriaRepository;
@@ -14,8 +15,11 @@ public class CategoriaService {
 
     @Autowired
     private CategoriaRepository repository;
+    @Autowired
+    private ValidacaoCategoria validacao;
 
     public CategoriaDTO CriarCategoria(CategoriaDTO dto){
+        validacao.Validar(dto);
         Categoria categoriaCriada = repository.save(dto.mapearParaCategoria());
         CategoriaDTO categoriaDTOCriada = new CategoriaDTO(categoriaCriada.getId(),
                                                             categoriaCriada.getNome());
@@ -45,17 +49,13 @@ public class CategoriaService {
         return dto;
     }
 
-    public List<CategoriaDTO> BuscarPorNome(String nome){
-        List<Categoria> CategoriasEncontradas = repository.findByNome(nome);
+    public CategoriaDTO BuscarPorNome(String nome){
+        Categoria CategoriaEncontrada = repository.findByNome(nome).orElse(null);
 
-        List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
+        CategoriaDTO dto = new CategoriaDTO(CategoriaEncontrada.getId(),
+                CategoriaEncontrada.getNome());
 
-        for(Categoria x: CategoriasEncontradas){
-            CategoriaDTO categoriaDTO = new CategoriaDTO(x.getId(), x.getNome());
-            categoriaDTOList.add(categoriaDTO);
-        }
-
-        return categoriaDTOList;
+        return dto;
     }
 
     public void DeletarPorId(Integer id){
@@ -63,22 +63,23 @@ public class CategoriaService {
     }
 
     public void DeletarPorNome(String nome){
-        List<Categoria> CategoriasEncontradas = repository.findByNome(nome);
+        Categoria CategoriasEncontradas = repository.findByNome(nome).get();
 
-        for(Categoria x: CategoriasEncontradas){
-            repository.deleteById(x.getId());
-        }
+        repository.delete(CategoriasEncontradas);
     }
 
-    public CategoriaDTO Atualizar(Integer id, Categoria categoria){
-        Categoria categoriaAtualizada = new Categoria();
+    public CategoriaDTO Atualizar(Integer id, CategoriaDTO dto){
+        validacao.Validar(dto);
+
+        Categoria categoriaAtualizada = dto.mapearParaCategoria();
         categoriaAtualizada.setId(id);
-        categoriaAtualizada.setNome(categoria.getNome());
+        categoriaAtualizada.setNome(dto.nome());
 
         repository.save(categoriaAtualizada);
 
-        CategoriaDTO dto = new CategoriaDTO(categoriaAtualizada.getId(),
-                                            categoriaAtualizada.getNome());
-        return dto;
+        CategoriaDTO novoDto = new CategoriaDTO(categoriaAtualizada.getId(),
+                categoriaAtualizada.getNome());
+
+        return novoDto;
     }
 }

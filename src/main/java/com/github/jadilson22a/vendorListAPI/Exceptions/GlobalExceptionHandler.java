@@ -1,4 +1,4 @@
-package com.github.jadilson22a.vendorListAPI;
+package com.github.jadilson22a.vendorListAPI.Exceptions;
 
 import com.github.jadilson22a.vendorListAPI.DTOs.ErroDto;
 import com.github.jadilson22a.vendorListAPI.Models.RespostaErro;
