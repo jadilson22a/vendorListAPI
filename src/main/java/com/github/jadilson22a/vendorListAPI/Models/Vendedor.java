@@ -1,5 +1,6 @@
 package com.github.jadilson22a.vendorListAPI.Models;
 
+import com.github.jadilson22a.vendorListAPI.DTOs.VendedorDTO;
 import com.github.jadilson22a.vendorListAPI.Enum.FornecimentoEscopo;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class Vendedor {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "fornecimento_escopo")
-    private FornecimentoEscopo fornecimento_escopo;
+    private FornecimentoEscopo fornecimentoEscopo;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -35,4 +36,18 @@ public class Vendedor {
 
     @Column(name = "observacao")
     private String observacao;
+
+    public VendedorDTO mapearParaDto(){
+        VendedorDTO dto = new VendedorDTO(
+                nome,
+                cnpj,
+                email,
+                contato,
+                fornecimentoEscopo,
+                categoria,
+                observacao
+        );
+
+        return dto;
+    }
 }
