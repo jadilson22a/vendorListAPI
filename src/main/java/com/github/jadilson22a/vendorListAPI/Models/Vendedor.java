@@ -36,18 +36,4 @@ public class Vendedor {
 
     @Column(name = "observacao")
     private String observacao;
-
-    public VendedorDTO mapearParaDto(){
-        VendedorDTO dto = new VendedorDTO(
-                nome,
-                cnpj,
-                email,
-                contato,
-                fornecimentoEscopo,
-                categoria,
-                observacao
-        );
-
-        return dto;
-    }
 }
