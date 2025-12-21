@@ -1,6 +1,7 @@
 package com.github.jadilson22a.vendorListAPI.Services;
 
 import com.github.jadilson22a.vendorListAPI.Beans.Mapear;
+import com.github.jadilson22a.vendorListAPI.Beans.ValidacaoVendedor;
 import com.github.jadilson22a.vendorListAPI.DTOs.VendedorDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
 import com.github.jadilson22a.vendorListAPI.Repository.VendedorRepository;
@@ -19,7 +20,12 @@ public class VendedorService {
     @Autowired
     private Mapear mapear;
 
+    @Autowired
+    private ValidacaoVendedor validacaoVendedor;
+
     public VendedorDTO CriarVendedor(VendedorDTO dto){
+        validacaoVendedor.validar(dto);
+
         Vendedor vendedor = mapear.MapearParaVendedor(dto);
         Vendedor vendedorSalvo = repository.save(vendedor);
 
@@ -45,6 +51,8 @@ public class VendedorService {
     }
 
     public VendedorDTO Atualizar(VendedorDTO dto, Integer id){
+        validacaoVendedor.validar(dto);
+
         Vendedor vendedor = mapear.MapearParaVendedor(dto);
         vendedor.setId(id);
         Vendedor vendedorSalvo = repository.save(vendedor);
