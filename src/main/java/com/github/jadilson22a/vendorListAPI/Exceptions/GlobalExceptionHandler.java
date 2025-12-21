@@ -5,6 +5,7 @@ import com.github.jadilson22a.vendorListAPI.Models.RespostaErro;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,6 +33,26 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<RespostaErro> handleValid(MethodArgumentNotValidException ex){
+
+        List<ErroDto> erros = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> new ErroDto(
+                        error.getField(),
+                        error.getDefaultMessage()
+                ))
+                .toList();
+
+        RespostaErro resposta = RespostaErro.erroValidacao(
+                "Parâmetros inválidos",
+                erros
+        );
+
+        return ResponseEntity.status(resposta.status()).body(resposta);
     }
 }
 

@@ -2,6 +2,7 @@ package com.github.jadilson22a.vendorListAPI.Controller;
 
 import com.github.jadilson22a.vendorListAPI.DTOs.VendedorDTO;
 import com.github.jadilson22a.vendorListAPI.Services.VendedorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class VendedorController {
     private VendedorService service;
 
     @PostMapping
-    public ResponseEntity<VendedorDTO> CriarVendedor(@RequestBody VendedorDTO dto){
+    public ResponseEntity<VendedorDTO> CriarVendedor(@Valid @RequestBody VendedorDTO dto){
         VendedorDTO vendedorCriado = service.CriarVendedor(dto);
         return new ResponseEntity<>(vendedorCriado, HttpStatus.CREATED);
     }
@@ -33,7 +34,7 @@ public class VendedorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<VendedorDTO> Atualizar(@RequestBody VendedorDTO dto,
+    public ResponseEntity<VendedorDTO> Atualizar(@Valid @RequestBody VendedorDTO dto,
                                                  @PathVariable Integer id){
         return new ResponseEntity<>(service.Atualizar(dto, id), HttpStatus.CREATED);
     }

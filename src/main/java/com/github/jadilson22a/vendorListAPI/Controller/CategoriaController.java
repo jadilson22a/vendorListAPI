@@ -2,6 +2,7 @@ package com.github.jadilson22a.vendorListAPI.Controller;
 
 import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.Services.CategoriaService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class CategoriaController {
     private CategoriaService service;
 
     @PostMapping()
-    public ResponseEntity<Object> CriarCategoria(@RequestBody CategoriaDTO dto){
+    public ResponseEntity<Object> CriarCategoria(@Valid @RequestBody CategoriaDTO dto){
         CategoriaDTO dtoCriado = service.CriarCategoria(dto);
         return new ResponseEntity(dtoCriado, HttpStatus.CREATED);
     }
@@ -53,7 +54,7 @@ public class CategoriaController {
 
     @PutMapping("{id}")
     public ResponseEntity<CategoriaDTO> Atualizar(@PathVariable Integer id,
-                               @RequestBody CategoriaDTO categoriaAtualizada){
+                               @Valid @RequestBody CategoriaDTO categoriaAtualizada){
         return new ResponseEntity<>(service.Atualizar(id, categoriaAtualizada),
                                     HttpStatus.ACCEPTED);
     }

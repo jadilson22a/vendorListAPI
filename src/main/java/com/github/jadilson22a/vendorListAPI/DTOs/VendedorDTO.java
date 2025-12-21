@@ -1,16 +1,16 @@
 package com.github.jadilson22a.vendorListAPI.DTOs;
 
 import com.github.jadilson22a.vendorListAPI.Enum.FornecimentoEscopo;
-import com.github.jadilson22a.vendorListAPI.Models.Categoria;
-import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record VendedorDTO(Integer id,
-                          String nome,
-                          String cnpj,
-                          String email,
+                          @NotBlank String nome,
+                          @NotBlank String cnpj,
+                          @NotBlank String email,
                           String contato,
-                          FornecimentoEscopo fornecimentoEscopo,
-                          String NomeCategoria,
+                          @NotNull FornecimentoEscopo fornecimentoEscopo,
+                          @NotBlank String NomeCategoria,
                           String observacao)
 {
 
