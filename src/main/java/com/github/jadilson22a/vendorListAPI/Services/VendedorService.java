@@ -26,15 +26,15 @@ public class VendedorService {
     public VendedorDTO CriarVendedor(VendedorDTO dto){
         validacaoVendedor.validar(dto);
 
-        Vendedor vendedor = mapear.MapearParaVendedor(dto);
+        Vendedor vendedor = mapear.ParaVendedor(dto);
         Vendedor vendedorSalvo = repository.save(vendedor);
 
-        return mapear.MapearParaVendedorDTO(vendedorSalvo);
+        return mapear.ParaVendedorDTO(vendedorSalvo);
     }
 
     public VendedorDTO BuscarVendedorPorId(Integer id){
         Vendedor vendedorEncontrado = repository.findById(id).orElse(null);
-        VendedorDTO dto = mapear.MapearParaVendedorDTO(vendedorEncontrado);
+        VendedorDTO dto = mapear.ParaVendedorDTO(vendedorEncontrado);
         return dto;
     }
 
@@ -43,7 +43,7 @@ public class VendedorService {
 
         List<VendedorDTO> vendedoresDTOS = new ArrayList<>();
         for(Vendedor x: vendedorEncontrado){
-            VendedorDTO dto = mapear.MapearParaVendedorDTO(x);
+            VendedorDTO dto = mapear.ParaVendedorDTO(x);
             vendedoresDTOS.add(dto);
         }
 
@@ -53,11 +53,11 @@ public class VendedorService {
     public VendedorDTO Atualizar(VendedorDTO dto, Integer id){
         validacaoVendedor.validar(dto);
 
-        Vendedor vendedor = mapear.MapearParaVendedor(dto);
+        Vendedor vendedor = mapear.ParaVendedor(dto);
         vendedor.setId(id);
         Vendedor vendedorSalvo = repository.save(vendedor);
 
-        return mapear.MapearParaVendedorDTO(vendedorSalvo);
+        return mapear.ParaVendedorDTO(vendedorSalvo);
     }
 
     public void Deletar(Integer id){

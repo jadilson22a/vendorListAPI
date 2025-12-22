@@ -28,7 +28,7 @@ public class ValidacaoVendedor {
 
     public boolean VendedorExiste(VendedorDTO dto){
 
-        Vendedor vendedor = map.MapearParaVendedor(dto);
+        Vendedor vendedor = map.ParaVendedor(dto);
 
         Optional<Vendedor> vendedorEncontrado =
                 repository.findByNomeAndFornecimentoEscopoAndCategoria(

@@ -4,21 +4,19 @@ import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.DTOs.VendedorDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Categoria;
 import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
+import com.github.jadilson22a.vendorListAPI.Repository.CategoriaRepository;
 import com.github.jadilson22a.vendorListAPI.Services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Mapear {
 
     @Autowired
-    private CategoriaService categoriaService;
+    private CategoriaRepository repository;
 
-    public Vendedor MapearParaVendedor(VendedorDTO dto){
-        CategoriaDTO categoriaDTO = categoriaService.BuscarPorNome(dto.NomeCategoria());
-        Categoria categoria = categoriaDTO.mapearParaCategoria();
+    public Vendedor ParaVendedor(VendedorDTO dto){
+        Categoria categoria = repository.findByNome(dto.NomeCategoria()).orElse(null);
 
         Vendedor vendedor = new Vendedor();
         vendedor.setNome(dto.nome());
@@ -32,7 +30,7 @@ public class Mapear {
         return vendedor;
     }
 
-    public VendedorDTO MapearParaVendedorDTO(Vendedor vendedor){
+    public VendedorDTO ParaVendedorDTO(Vendedor vendedor){
         VendedorDTO dto = new VendedorDTO(
                 vendedor.getId(),
                 vendedor.getNome(),
@@ -43,6 +41,22 @@ public class Mapear {
                 vendedor.getCategoria().getNome(),
                 vendedor.getObservacao()
         );
+
+        return dto;
+    }
+
+    public Categoria ParaCategoria(CategoriaDTO dto){
+
+        Categoria categoria = new Categoria();
+        categoria.setId(dto.id());
+        categoria.setNome(dto.nome());
+
+        return categoria;
+    }
+
+    public CategoriaDTO ParaCategoriaDTO(Categoria categoria){
+
+        CategoriaDTO dto = new CategoriaDTO(categoria.getId(), categoria.getNome());
 
         return dto;
     }

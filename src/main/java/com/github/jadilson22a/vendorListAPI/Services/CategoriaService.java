@@ -1,5 +1,6 @@
 package com.github.jadilson22a.vendorListAPI.Services;
 
+import com.github.jadilson22a.vendorListAPI.Beans.Mapear;
 import com.github.jadilson22a.vendorListAPI.Beans.ValidacaoCategoria;
 import com.github.jadilson22a.vendorListAPI.DTOs.CategoriaDTO;
 import com.github.jadilson22a.vendorListAPI.Models.Categoria;
@@ -17,12 +18,16 @@ public class CategoriaService {
     private CategoriaRepository repository;
     @Autowired
     private ValidacaoCategoria validacao;
+    @Autowired
+    private Mapear mapear;
 
     public CategoriaDTO CriarCategoria(CategoriaDTO dto){
         validacao.Validar(dto);
-        Categoria categoriaCriada = repository.save(dto.mapearParaCategoria());
-        CategoriaDTO categoriaDTOCriada = new CategoriaDTO(categoriaCriada.getId(),
-                                                            categoriaCriada.getNome());
+
+        Categoria categoriaCriada = mapear.ParaCategoria(dto);
+
+        repository.save(categoriaCriada);
+        CategoriaDTO categoriaDTOCriada = mapear.ParaCategoriaDTO(categoriaCriada);
 
         return categoriaDTOCriada;
     }
@@ -33,7 +38,7 @@ public class CategoriaService {
         List<CategoriaDTO> categoriaDTOList = new ArrayList<>();
 
         for(Categoria x: categoriasEncontradas){
-            CategoriaDTO categoriaDTO = new CategoriaDTO(x.getId(), x.getNome());
+            CategoriaDTO categoriaDTO = mapear.ParaCategoriaDTO(x);
             categoriaDTOList.add(categoriaDTO);
         }
 
@@ -43,8 +48,7 @@ public class CategoriaService {
     public CategoriaDTO BuscarPorId(Integer id){
         Categoria categoriaEncontrada = repository.findById(id).orElse(null);
 
-        CategoriaDTO dto = new CategoriaDTO(categoriaEncontrada.getId(),
-                                            categoriaEncontrada.getNome());
+        CategoriaDTO dto = mapear.ParaCategoriaDTO(categoriaEncontrada);
 
         return dto;
     }
@@ -52,8 +56,7 @@ public class CategoriaService {
     public CategoriaDTO BuscarPorNome(String nome){
         Categoria CategoriaEncontrada = repository.findByNome(nome).orElse(null);
 
-        CategoriaDTO dto = new CategoriaDTO(CategoriaEncontrada.getId(),
-                CategoriaEncontrada.getNome());
+        CategoriaDTO dto = mapear.ParaCategoriaDTO(CategoriaEncontrada);
 
         return dto;
     }
@@ -71,14 +74,12 @@ public class CategoriaService {
     public CategoriaDTO Atualizar(Integer id, CategoriaDTO dto){
         validacao.Validar(dto);
 
-        Categoria categoriaAtualizada = dto.mapearParaCategoria();
+        Categoria categoriaAtualizada = mapear.ParaCategoria(dto);
         categoriaAtualizada.setId(id);
-        categoriaAtualizada.setNome(dto.nome());
 
         repository.save(categoriaAtualizada);
 
-        CategoriaDTO novoDto = new CategoriaDTO(categoriaAtualizada.getId(),
-                categoriaAtualizada.getNome());
+        CategoriaDTO novoDto = mapear.ParaCategoriaDTO(categoriaAtualizada);
 
         return novoDto;
     }
