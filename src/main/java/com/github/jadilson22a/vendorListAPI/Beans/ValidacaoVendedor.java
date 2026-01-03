@@ -5,11 +5,13 @@ import com.github.jadilson22a.vendorListAPI.Exceptions.RegistroDuplicadoExceptio
 import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
 import com.github.jadilson22a.vendorListAPI.Repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@Lazy
 public class ValidacaoVendedor {
 
     @Autowired

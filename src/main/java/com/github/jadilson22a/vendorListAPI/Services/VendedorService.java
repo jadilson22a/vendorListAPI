@@ -7,6 +7,7 @@ import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
 import com.github.jadilson22a.vendorListAPI.Repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class VendedorService {
     @Autowired
     private ValidacaoVendedor validacaoVendedor;
 
+    @Transactional
     public VendedorDTO CriarVendedor(VendedorDTO dto){
         validacaoVendedor.validar(dto);
 
@@ -50,6 +52,7 @@ public class VendedorService {
         return vendedoresDTOS;
     }
 
+    @Transactional
     public VendedorDTO Atualizar(VendedorDTO dto, Integer id){
         validacaoVendedor.validar(dto);
 
@@ -60,6 +63,7 @@ public class VendedorService {
         return mapear.ParaVendedorDTO(vendedorSalvo);
     }
 
+    @Transactional
     public void Deletar(Integer id){
         repository.deleteById(id);
     }

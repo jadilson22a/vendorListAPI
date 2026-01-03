@@ -1,0 +1,1 @@
+SELECT *FROM categoria_de_venda;

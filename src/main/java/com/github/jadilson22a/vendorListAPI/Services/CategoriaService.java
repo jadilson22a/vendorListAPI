@@ -7,6 +7,7 @@ import com.github.jadilson22a.vendorListAPI.Models.Categoria;
 import com.github.jadilson22a.vendorListAPI.Repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class CategoriaService {
     @Autowired
     private Mapear mapear;
 
+    @Transactional
     public CategoriaDTO CriarCategoria(CategoriaDTO dto){
         validacao.Validar(dto);
 
@@ -61,16 +63,19 @@ public class CategoriaService {
         return dto;
     }
 
+    @Transactional
     public void DeletarPorId(Integer id){
         repository.deleteById(id);
     }
 
+    @Transactional
     public void DeletarPorNome(String nome){
         Categoria CategoriasEncontradas = repository.findByNome(nome).get();
 
         repository.delete(CategoriasEncontradas);
     }
 
+    @Transactional
     public CategoriaDTO Atualizar(Integer id, CategoriaDTO dto){
         validacao.Validar(dto);
 

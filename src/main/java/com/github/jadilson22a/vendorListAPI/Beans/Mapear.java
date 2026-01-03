@@ -7,9 +7,11 @@ import com.github.jadilson22a.vendorListAPI.Models.Vendedor;
 import com.github.jadilson22a.vendorListAPI.Repository.CategoriaRepository;
 import com.github.jadilson22a.vendorListAPI.Services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
+@Lazy
 public class Mapear {
 
     @Autowired
