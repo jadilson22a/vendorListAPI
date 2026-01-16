@@ -2,9 +2,9 @@ spring:
   application:
     name: vendorListAPI
   datasource:
-    url: jdbc:mysql://localhost:3306/Nome_da_DB
+    url: jdbc:mysql://localhost:3306/APIFornecedores
     username: root
-    password:
+    password: "Sua Senha"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
